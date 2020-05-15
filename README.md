@@ -89,5 +89,5 @@ Installing chrome browser can be downloaded from below link
 
 ## Acknowledgments
 
-* A Sincere thanks to Adnan Ansari [obaidkazi](https://github.com/obaidkazi) for contributing towards the devlopment of GUI
+* A Sincere thanks to Obaid Kazi [obaidkazi](https://github.com/obaidkazi) for contributing towards the devlopment of GUI
 * The template of readme.md was taken from [PurpleBooth](https://github.com/PurpleBooth)
