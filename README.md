@@ -12,7 +12,7 @@ All the source code is available inside sovmt Directory. It requires python inte
 
 * Python 3.7x Interpreter
 * Django 2.2.5
-* HTML5 Browser
+* Chrome Browser
 * Python library -> googletrans, pyautogui, nltk, pyttsx3, paralleldots, PIL
 
 
@@ -62,6 +62,13 @@ Installing Python library (nltk , paralleldots, pyttsx3 for core nlp based opera
 ```
 pip install nltk ParallelDots pyttsx3
 ```
+
+step 6
+
+```
+Installing chrome browser can be downloaded from below link
+```
+[Click here to visit download page](https://www.google.com/chrome/)
 
 ## Built With
 
