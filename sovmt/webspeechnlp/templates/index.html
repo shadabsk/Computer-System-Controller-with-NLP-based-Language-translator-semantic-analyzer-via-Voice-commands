@@ -1,0 +1,439 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src={% static "js/jquery-3.3.1.min.js" %}></script>
+        <title>Document</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style type="text/css">
+            body {
+                  font-family: Arial, Helvetica, sans-serif;
+                  margin: 0;
+                  color:white;
+                  background: #267BC6;
+                  background: -moz-radial-gradient(center, ellipse cover,  #2989d8 0%, #1e5799 100%, #1e5799 100%);
+                   background: -webkit-radial-gradient(center, ellipse cover,  #2989d8 0%,#1e5799 100%,#1e5799 100%);
+                   background: radial-gradient(ellipse at center,  #2989d8 0%,#1e5799 100%,#1e5799 100%);
+                   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2989d8', endColorstr='#1e5799',GradientType=1 );
+
+            }
+            .wrapper {
+                 align-items: center;
+                  display: flex;
+                  height: 60vh;
+                  justify-content: center;
+            }
+            .player-controls {
+                  color: #FFF;
+                  cursor: pointer;
+                  display: block;
+                  font-size: 40px;
+                  height: 1em;
+                  position: relative;
+                  text-decoration: none;
+                  width: 1em;
+                  -webkit-transition: transform 0.25s ease-in-out;
+                  transition: transform 0.25s ease-in-out;
+            }
+            .player-controls .audio-label {
+                  line-height: 1;
+                  position: absolute;
+                  right: 1.35em;
+                  text-align: right;
+                  text-transform: uppercase;
+                  top: -0.4em;
+            }
+            .player-controls .audio-label span {
+                 font-size: 18px;
+            }
+            .player-controls .audio-label span small {
+                  display: block;
+                  font-size: 0.83em;
+            }
+            .player-controls .play,
+            .player-controls .pause {
+                  display: block;
+                  background-size: 100% 100%;
+                  height: 1em;
+                  position: absolute;
+                  width: 1em;
+                  -webkit-transition: all 0.25s linear;
+                  transition: all 0.25s linear;
+                  z-index: 5;
+            }
+            .player-controls .play::before,
+            .player-controls .pause::before,
+            .player-controls .play::after,
+            .player-controls .pause::after {
+                  -webkit-border-radius: 1000px;
+                  -moz-border-radius: 1000px;
+                  border-radius: 1000px;
+                  content: "";
+                  display: block;
+                  position: absolute;
+                  height: 1em;
+                  right: 0;
+                  top: 0;
+                  width: 1em;
+                  z-index: 0;
+            }
+            .player-controls .play::before {
+                  box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+                  -webkit-transition: all 0.25s linear;
+                  transition: all 0.25s linear;
+            }
+            .player-controls .pause {
+                  opacity: 0;
+                  right: 0;
+                  top: 0;
+            }
+            .player-controls.playing .play {
+                  opacity: 0;
+            }
+            .player-controls.playing .pause {
+                  opacity: 1;
+            }
+            .player-controls.playing .pause::before {
+                  -moz-animation: audio1 1.5s infinite ease-in-out;
+                  -o-animation: audio1 1.5s infinite ease-in-out;
+                  -webkit-animation: audio1 1.5s infinite ease-in-out;
+                  animation: audio1 1.5s infinite ease-in-out;
+            }
+            .player-controls.playing .pause::after {
+                  -moz-animation: audio2 2.2s infinite ease-in-out;
+                  -o-animation: audio2 2.2s infinite ease-in-out;
+                  -webkit-animation: audio2 2.2s infinite ease-in-out;
+                  animation: audio2 2.2s infinite ease-in-out;
+            }
+            .player-controls:hover {
+                  transform: scale(1.1);
+            }
+            .player-controls:hover .play::before {
+                  box-shadow: 0 0 12px rgba(255, 238, 125, 0.8);
+            }
+            .animate-audio1 {
+                  -moz-animation: audio1 1.5s infinite ease-in-out;
+                  -o-animation: audio1 1.5s infinite ease-in-out;
+                  -webkit-animation: audio1 1.5s infinite ease-in-out;
+                  animation: audio1 1.5s infinite ease-in-out;
+            }
+            @keyframes audio1 {
+                  0%,
+                  25% {
+                       box-shadow: 0 0 0 0.15em rgba(245, 0, 0, 0.6);
+                  }
+                  50% {
+                       box-shadow: 0 0 0 0.55em rgba(245, 0, 0, 0.6);
+                  }
+                  75% {
+                       box-shadow: 0 0 0 0.25em rgba(245, 0, 0, 0.6);
+                  }
+                }
+            .animate-audio2 {
+                  -moz-animation: audio2 2.2s infinite ease-in-out;
+                  -o-animation: audio2 2.2s infinite ease-in-out;
+                  -webkit-animation: audio2 2.2s infinite ease-in-out;
+                  animation: audio2 2.2s infinite ease-in-out;
+            }
+            @keyframes audio2 {
+                  0%,
+                  100% {
+                       box-shadow: 0 0 0 0.25em rgba(255, 255, 255, 0.15);
+                  }
+                  25% {
+                       box-shadow: 0 0 0 0.4em rgba(255, 255, 255, 0.3);
+                  }
+                  50% {
+                       box-shadow: 0 0 0 0.15em rgba(255, 255, 255, 0.05);
+                  }
+                  75% {
+                       box-shadow: 0 0 0 0.55em rgba(255, 255, 255, 0.45);
+                  }
+                }
+
+                #message,#messagetext,#singleword,#sentiments {
+                  width:500px;
+                  background-color:#FFF;
+                  color:#222;
+                  font-family:Courier, monospace;
+                  font-weight:normal;
+                  font-size:24px;
+                  resize:none;
+                  line-height:40px;
+                  padding-left:100px;
+                  padding-right:100px;
+                  padding-top:45px;
+                  padding-bottom:34px;
+                  background-image:url(https://static.tumblr.com/maopbtg/E9Bmgtoht/lines.png), url(https://static.tumblr.com/maopbtg/nBUmgtogx/paper.png);
+                  background-repeat:repeat-y, repeat;
+                  -webkit-border-radius:12px;
+                  border-radius:12px;
+                  -webkit-box-shadow: 0px 2px 14px #000;
+                  box-shadow: 0px 2px 14px #000;
+                  border-top:1px solid #FFF;
+                  border-bottom:1px solid #FFF;
+                }
+
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+           <a href="#" title="Listen to the song" class="player-controls" style="margin-top: 100px;">
+              <span class="audio-label" >
+                 <span>
+                     Speak
+                 </span>
+              </span>
+              <span class="play" style="margin-top: -10px;" ><center><i class="fa fa-microphone" style="font-size: 40px;"></i></center></span>
+              <span class="pause" style="margin-top: -10px;" ><center><i class="fa fa-microphone" style="font-size: 40px;color: red;"></i></center></span>
+              <br><br><br>
+              <form action="" method="post" role="form" class="" id="nlpform">
+                  {% csrf_token %}
+                  <textarea rows="2"  style="display:none; margin-left: -300px; overflow: hidden; word-wrap: break-word; resize: none; height: 60px;"  placeholder="Original Text Input (Any Language)" id='message'></textarea>
+                  <br>
+                  <textarea rows="4"  style="display:none; margin-left: -300px; overflow: hidden; word-wrap: break-word; resize: none; height: 60px;"  placeholder="English Translated Output" id='messagetext'></textarea>
+                  <textarea rows="4"  style="display:none; margin-left: -300px; overflow: hidden; word-wrap: break-word; resize: none; height: 60px;"  placeholder="Single word analysis" id='singleword'></textarea>
+                  <textarea rows="4"  style="display:none; margin-left: -300px; overflow: hidden; word-wrap: break-word; resize: none; height: 60px;"  placeholder="Sentiment Analysis" id='sentiments'>
+                  </textarea>
+                  <div id='emoji' style='display: none;'></div>
+                  <br><br>
+              </form>
+           </a>
+         </div>
+
+        <script>
+            var obtainedresul
+            var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+            var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
+            var grammar = '#JSGF V1.0;'
+            var recognition = new SpeechRecognition();
+            var speechRecognitionList = new SpeechGrammarList();
+            speechRecognitionList.addFromString(grammar, 1);
+            recognition.grammars = speechRecognitionList;
+            recognition.continuous = false;
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+            audiostatus='off'
+            playerControls = ".player-controls";
+
+
+            recognition.onend = function() {
+              try{
+                recognition.start();
+              }
+              catch{
+                console.log();
+              }
+            }
+
+
+            $(document).on('click touch', playerControls, function(e) {
+               e.preventDefault();
+               if (!$(playerControls).hasClass("playing")) {
+                  if (audiostatus == 'off') {
+                     $(playerControls).addClass('playing');
+                    audiostatus = 'on';
+                    var msgdata = document.querySelector('#message');
+                    var bg = document.querySelector('html');
+                    recognition.start();
+                    console.log('Ready to receive a color command.');
+                    recognition.onresult = function(event) {
+                        var obtainedresul = event.results[0][0].transcript;
+                        msgdata.textContent = obtainedresul;
+                        msgdataval = msgdata.textContent
+                        event.preventDefault(); 
+                        if($('#sentiments').is(":visible")){
+                          msgdataval = 'codesentiment' +" "+ msgdata.textContent
+                        }
+                        if($('#message').is(":visible")){
+                          msgdataval = 'code505' +" "+ msgdata.textContent
+                        }     
+                        if($('#messagetext').is(":visible")){
+                          msgdataval = 'codetrans' +" "+ msgdata.textContent
+                        }     
+                        if(obtainedresul == 'exit'){
+                          $('#message').hide()
+                          $('#messagetext').hide()
+                          $('#singleword').hide()
+                          $('#sentiments').hide()
+                          msgdataval = msgdata.textContent
+                        }                   
+                        $.ajax({
+                            type: "POST",
+                            url: "vrdata",
+                            data:{
+                                voicedata: msgdataval,
+                                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                            },
+                            cache: false,
+                            dataType: 'json',
+                            beforeSend: function() {
+                                    $('#regmsgenq').html();
+                            },
+                            complete: function(){
+                                $('#regmsgenq').html("");
+                                
+                            },
+                            success: function(data){
+                                if(data.None){       
+                                  //recognition.start();  
+                                }
+                                else if(data.True=="writeFlag1"){
+                                  $('#message').hide()
+                                  $('#messagetext').hide()
+                                  $('#singleword').hide()
+                                  $('#sentiments').hide()
+                                  $('#emoji').hide()
+                                  var msg1 = new SpeechSynthesisUtterance();
+                                  var message = document.getElementById("messagetext").textContent;
+                                      
+                                  //recognition.start();
+                                }
+                                else if(data.True=="screenshotFlag1"){
+                                  $('#message').hide()
+                                  $('#messagetext').hide()
+                                  $('#singleword').hide()
+                                  $('#sentiments').hide()
+                                  $('#emoji').hide()
+                                  //$('#messagetext').html("File saved successfully on your desktop!")
+                                  var msg = new SpeechSynthesisUtterance();
+                                  var message = document.getElementById("messagetext").textContent;
+                                      
+                                  //recognition.start();
+                                }
+                                else if(data.True=="translateFlag1"){
+                                  
+                                  $('#message').show()
+                                  $('#messagetext').show()
+                                  $('#singleword').hide()
+                                  $('#sentiments').hide()
+                                  $('#emoji').hide()
+                                  $('#message').html("")
+                                  $('#messagetext').html("")
+                                  //recognition.start();
+                                }
+                                else if(data.True=="translateFlag0"){
+                                  
+                                  $('#message').show()
+                                  $('#messagetext').hide()
+                                  $('#singleword').show()
+                                  $('#sentiments').hide()
+                                  $('#emoji').hide()
+                                  $('#message').html("")
+                                  $('#singleword').html("")
+                                  //recognition.start();
+                                }
+                                else if(data.True=="sentiFlag0"){
+                                  $('#message').hide()
+                                  $('#messagetext').hide()
+                                  $('#singleword').hide()
+                                  $('#sentiments').show()
+                                  $('#emoji').show()
+                                      
+                                  //recognition.start();
+                                }
+                                else{
+                                  if($('#message').is(":visible")){
+                                    $('#messagetext').append(data.True);
+                                    if($('#singleword').is(":visible")){
+                                      if(data.wordmeaningclass!=" "){
+                                        $('#singleword').html(
+                                          "Language detected : "+data.languagedetect+'&#13;&#10;'+
+                                          "English Translation : "+data.True+'&#13;&#10;'+
+                                          "Word POFSpeech : "+data.wordmeaningclass+'&#13;&#10;'+
+                                          "Dictionary Meaning : "+data.wordmeaning+'&#13;&#10;'+
+                                          "Synonyms : "+data.synonyms+'&#13;&#10;'+
+                                          "Antonyms : "+data.antonyms+'&#13;&#10;'+
+                                          "Root word : "+data.rootword+'&#13;&#10;'
+                                          
+                                          );
+                                      }else{
+                                        var res = data.wordmeaning.replace("\[", " ");
+                                        var res2 = res.replace("\]", " ");
+                                        $('#singleword').html(
+                                          "Language detected : "+data.languagedetect+'&#13;&#10;'+
+                                          "English Translation : "+data.True+'&#13;&#10;'+
+                                          "Word POFSpeech & Dictionary Meaning - "+data.wordmeaningclass+'&#13;&#10;'+
+                                          res2+'&#13;&#10;'+
+                                          "Synonyms : "+data.synonyms+'&#13;&#10;'+
+                                          "Antonyms : "+data.antonyms+'&#13;&#10;'+
+                                          "Root word : "+data.rootword+'&#13;&#10;'
+                                          );
+                                      }
+                                    }
+                                  }else{
+                                    $('#sentiments').html(
+                                      "Text Analysed : "+data.True+'&#13;&#10;'+
+                                      "sentiment label : "+data.sentiment+'&#13;&#10;'
+                                      );
+                                    if(data.sentiment=="positive"){
+                                      $('#emoji').html(
+                                        "<span style='font-size:100px;'>&#128512;</span>"
+                                        );
+                                    }else if(data.sentiment=="negative"){
+                                      $('#emoji').html(
+                                        "<span style='font-size:100px;'>&#128532;</span>"
+                                        );
+                                    }else{
+                                      $('#emoji').html(
+                                        "<span style='font-size:100px;'>&#128528;</span>"
+                                        );
+                                    }
+                                    //recognition.start();
+                                  }
+                                }
+                            }
+                        });
+                        return false;
+
+                    }
+                     return false;
+                     
+                    }else if (audiostatus == 'on') {
+                        $(playerControls).addClass('playing');
+                        var msgdata = document.querySelector('#message');
+                        var bg = document.querySelector('html');
+                        recognition.start();
+                        console.log('Ready to receive a color command.');
+                        recognition.onresult = function(event) {
+                            var obtainedresul = event.results[0][0].transcript;
+                            msgdata.textContent = obtainedresul;
+                            event.preventDefault(); 
+                            $.ajax({
+                                type: "POST",
+                                url: "vrdata",
+                                data:{
+                                    voicedata: msgdataval,
+                                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                                },
+                                cache: false,
+                                dataType: 'json',
+                                beforeSend: function() {
+                                        $('#regmsgenq').html();
+                                },
+                                complete: function(){
+                                    $('#regmsgenq').html("");
+                                    $(playerControls).removeClass('playing');
+                                },
+                                success: function(data){
+                                    if(data.None){       
+                                    }
+                                    else{
+                                      //  recognition.start();
+                                    }
+                                }
+                            });
+                            return false;
+                        }
+     
+                    }
+                }
+               return false;
+            });
+        </script>
+    </body>
+</html>
