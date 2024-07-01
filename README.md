@@ -2,12 +2,12 @@
 Computer System Controller with NLP based Language translator semantic analyzer via Voice-commands Using Django, googletrans, pyautogui, PIL, pyDictionary, nltk, pyttsx3, paralleldots, Google-web-speech-synthesis, HTML5, CSS3, Bootstrap, jQuery, Vanilla JS, AJAX.
 
 Part of my final semester Mini Project for the subject "Natural Language Processing Lab". This applications majorly functioning on Django Framework, Google speech synthesis API works as 
-• Finding the semantic of a sentence using paralleldots api.
-• A language translator of any given sentence/word to English language.
-• Performing basic computer based simulations such as opening notepad, writing on it and dynamically converting each sentence to English Language, and saving the file to the desktop.
-• Taking screenshot, navigating to different directories minimizing & maximizing a window.
-• Single word analysis through morphology-word tokenization, finding dictionary meaning and root of a given word via stemming algorithm.
-• increasing/decreasing volume,  opening music player (youtube) in the chrome browser.
+* Finding the semantic of a sentence using paralleldots api.
+* A language translator of any given sentence/word to English language.
+* Performing basic computer based simulations such as opening notepad, writing on it and dynamically converting each sentence to English Language, and saving the file to the desktop.
+* Taking screenshot, navigating to different directories minimizing & maximizing a window.
+* Single word analysis through morphology-word tokenization, finding dictionary meaning and root of a given word via stemming algorithm.
+* Increasing/decreasing volume,  opening music player (youtube) in the chrome browser.
 
 ## Getting Started
 All the source code is available inside sovmt Directory. It requires python interpreter,HTML5 Browser and Django Backend server.
